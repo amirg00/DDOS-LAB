@@ -9,7 +9,7 @@
 #include <netinet/ip.h>
 #include <netinet/tcp.h>
 #include <sys/types.h>
-
+#include <time.h>
 
 #define SRC_PORT 40508
 #define DEST_PORT 40508
@@ -39,9 +39,17 @@ unsigned short csum(unsigned short *ptr,int nbytes) {
 }
 
 int main(int argc, char *argv[]){
+    FILE *fp = fopen("syns_results_c.txt", "w");
+    if (fp == NULL) {
+        printf("Error opening file!\n");
+        return 1;
+    }
+
+    int curr_pkt_index = 0;
     int sock;
     struct sockaddr_in server_addr;
     char buff[PACKET_SIZE];
+    double total_pkt_sends_time = 0.0;
 
     if (argc != 3) {
         printf("Incorrect number of arguments - only need two (source_ip destination_ip)\n");
@@ -124,9 +132,29 @@ int main(int argc, char *argv[]){
     memcpy(buff, &iphdr, sizeof(iphdr));
     memcpy(buff + sizeof(iphdr), &tcphdr, sizeof(tcphdr));
 
+
+    // Record start time
+    clock_t start = clock();
+
     int err = sendto(sock, buff, sizeof(struct iphdr) + sizeof(struct tcphdr), 0, (struct sockaddr *)&server_addr, sizeof(server_addr));
     if(err < 0){
         perror("error in sending the syn packet!");
     }
 
+    // Record start time
+    clock_t finish = clock();
+
+    // Calculate and print total time taken
+    double total_time = (double)(finish - start) / CLOCKS_PER_SEC;
+    total_pkt_sends_time += total_time;
+
+    // Append results to the file
+    fprintf(fp, "********* PKT NO.%d *********\nTotal time taken to send packet: %f seconds.\n", curr_pkt_index++, total_time);
+
+    // Final bottom line
+    fprintf(fp, "---------------------------------------------------------------------------\nAverage time sending packet: %f\n seconds", total_pkt_sends_time/curr_pkt_index);
+
+    // Close file
+    fclose(fp);
+    close(sock);
 }

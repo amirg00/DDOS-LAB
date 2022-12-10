@@ -69,10 +69,10 @@ if __name__ == '__main__':
     parser_args = parser.parse_args()
 
     if parser_args.file_name == "syns_results_c.txt":
-        get_syns_packets_num("pings_results_c.txt")
+        get_syn_pkts_graph("syns_results_c.txt")
 
-    elif parser_args.file_name == "syns_results_c.txt":
-        get_syns_packets_num("pings_results_c.txt")
+    elif parser_args.file_name == "syns_results_p.txt":
+        get_syn_pkts_graph("syns_results_p.txt")
 
     elif parser_args.file_name == "pings_results_c.txt":
         get_pings_pkts_graph("pings_results_c.txt")

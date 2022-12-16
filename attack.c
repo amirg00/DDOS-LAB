@@ -132,27 +132,30 @@ int main(int argc, char *argv[]){
     memcpy(buff, &iphdr, sizeof(iphdr));
     memcpy(buff + sizeof(iphdr), &tcphdr, sizeof(tcphdr));
 
+    for(int i = 0; i < 100; i++){
+        printf("Sends %dth 10k syn packets...\n", i);
+        for(int j = 0; j < 10000; j++){
+            // Record start time
+            clock_t start = clock();
 
-    // Record start time
-    clock_t start = clock();
+            int err = sendto(sock, buff, sizeof(struct iphdr) + sizeof(struct tcphdr), 0, (struct sockaddr *)&server_addr, sizeof(server_addr));
+            if(err < 0){
+                perror("error in sending the syn packet!");
+            }
 
-    int err = sendto(sock, buff, sizeof(struct iphdr) + sizeof(struct tcphdr), 0, (struct sockaddr *)&server_addr, sizeof(server_addr));
-    if(err < 0){
-        perror("error in sending the syn packet!");
+            // Record finish time
+            clock_t finish = clock();
+
+            // Calculate and print total time taken
+            double total_time = (double)(finish - start) / CLOCKS_PER_SEC;
+            total_pkt_sends_time += total_time;
+
+            // Append results to the file
+            fprintf(fp, "********* PKT NO.%d *********\nTotal time taken to send packet: %f seconds.\n", curr_pkt_index++, total_time);
+        }
     }
-
-    // Record start time
-    clock_t finish = clock();
-
-    // Calculate and print total time taken
-    double total_time = (double)(finish - start) / CLOCKS_PER_SEC;
-    total_pkt_sends_time += total_time;
-
-    // Append results to the file
-    fprintf(fp, "********* PKT NO.%d *********\nTotal time taken to send packet: %f seconds.\n", curr_pkt_index++, total_time);
-
     // Final bottom line
-    fprintf(fp, "---------------------------------------------------------------------------\nAverage time sending packet: %f\n seconds", total_pkt_sends_time/curr_pkt_index);
+    fprintf(fp, "---------------------------------------------------------------------------\nAverage time sending packet: %f seconds", total_pkt_sends_time/curr_pkt_index);
 
     // Close file
     fclose(fp);

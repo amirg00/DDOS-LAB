@@ -1,0 +1,11 @@
+Total time taken to send and receive ping packet NO.0 (RTT): 0.011377334594726562 seconds.
+Total time taken to send and receive ping packet NO.1 (RTT): 0.006763458251953125 seconds.
+Total time taken to send and receive ping packet NO.2 (RTT): 0.0071446895599365234 seconds.
+Total time taken to send and receive ping packet NO.3 (RTT): 0.004102945327758789 seconds.
+Total time taken to send and receive ping packet NO.4 (RTT): 0.005158662796020508 seconds.
+Total time taken to send and receive ping packet NO.5 (RTT): 0.015799522399902344 seconds.
+Total time taken to send and receive ping packet NO.6 (RTT): 0.011471271514892578 seconds.
+Total time taken to send and receive ping packet NO.7 (RTT): 0.0059051513671875 seconds.
+Total time taken to send and receive ping packet NO.8 (RTT): 0.012131690979003906 seconds.
+----------------------------------------------------------------------------------------------------
+Average RTT (Round Trip Time): 0.008872747421264648
